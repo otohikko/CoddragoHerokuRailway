@@ -1,14 +1,46 @@
-FROM python:3.8-slim-buster as main
-ENV RAILWAY=true
+FROM python:3.10-slim
+
+# Установка переменных окружения
 ENV DOCKER=true
+ENV IS_DJHOST=true
 ENV GIT_PYTHON_REFRESH=quiet
-ENV PIP_NO_CACHE_DIR=1
-RUN apt update && apt install libcairo2 git -y --no-install-recommends
-RUN rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp/*
-RUN git clone https://github.com/coddrago/Heroku /Hikka
-WORKDIR /Hikka
-RUN pip install --no-warn-script-location --no-cache-dir -r requirements.txt
-RUN pip install --no-warn-script-location --no-cache-dir redis
-EXPOSE 8080
+
+ENV PIP_NO_CACHE_DIR=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+# Установка необходимых зависимостей
+RUN apt update && apt install -y --no-install-recommends \
+    libcairo2 \
+    git \
+    build-essential \
+    ffmpeg \
+    curl \
+    && rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp/*
+
+# Установка Node.js 18
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt install -y nodejs && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp/*
+
+# Создание директории для данных
 RUN mkdir /data
-CMD ["python3", "-m", "hikka"]
+
+# Клонирование репозитория
+RUN git clone https://github.com/coddrago/Heroku /Heroku
+
+# Установка рабочей директории
+
+WORKDIR /Heroku
+
+RUN cd /Heroku && git pull origin master
+
+
+# Установка зависимостей Python
+RUN pip install --no-warn-script-location --no-cache-dir -U -r requirements.txt
+
+# Указание порта
+EXPOSE 8080
+
+# Установка команды для запуска Python
+ENTRYPOINT ["python", "-m", "hikka"]
