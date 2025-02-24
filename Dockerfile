@@ -38,6 +38,7 @@ RUN cd /Heroku && git pull origin master
 
 # Установка зависимостей Python
 RUN pip install --no-warn-script-location --no-cache-dir -U -r requirements.txt
+RUN pip install --no-warn-script-location --no-cache-dir redis
 
 # Указание порта
 EXPOSE 8080
