@@ -2,7 +2,7 @@ FROM python:3.10-slim
 
 # Установка переменных окружения
 ENV DOCKER=true
-ENV IS_DJHOST=true
+ENV RAILWAY=true
 ENV GIT_PYTHON_REFRESH=quiet
 
 ENV PIP_NO_CACHE_DIR=1 \
