@@ -44,4 +44,4 @@ RUN pip install --no-warn-script-location --no-cache-dir redis
 EXPOSE 8080
 
 # Установка команды для запуска Python
-ENTRYPOINT ["python", "-m", "hikka"]
+ENTRYPOINT ["python", "-m", "heroku"]
