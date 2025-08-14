@@ -27,7 +27,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
 RUN mkdir /data
 
 # Клонирование репозитория
-RUN git clone https://github.com/coddrago/Heroku /Heroku
+RUN git clone https://github.com/otohikko/Heroku /Heroku
 
 # Установка рабочей директории
 
