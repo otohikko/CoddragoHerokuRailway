@@ -40,10 +40,6 @@ RUN cd /Heroku && git pull origin master
 RUN pip install --no-warn-script-location --no-cache-dir -U -r requirements.txt
 RUN pip install --no-warn-script-location --no-cache-dir redis
 
-import os
-port = int(os.getenv("PORT", 8080))
-app.run(host="0.0.0.0", port=port)
-
 # Указание порта
 EXPOSE 8080
 
